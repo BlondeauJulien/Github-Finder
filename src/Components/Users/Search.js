@@ -10,12 +10,18 @@ export class Search extends Component {
         searchUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
         showClear: PropTypes.bool.isRequired,
+        setAlert: PropTypes.func.isRequired,
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.searchUsers(this.state.text)
-        this.setState({ text: ''})
+
+        if(this.state.text.trim() === '') {
+            this.props.setAlert('Please enter something', 'light');
+        } else {
+            this.props.searchUsers(this.state.text)
+            this.setState({ text: ''})
+        }
     } //without arrow function this is undefined so we need to explictely bind it in onSubmit onSubmit={this.onSubmit.bind(this)}
 
     onChange = (e) => this.setState( { [e.target.name]: e.target.value });
